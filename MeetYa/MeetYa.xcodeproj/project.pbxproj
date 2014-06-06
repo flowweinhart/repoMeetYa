@@ -24,6 +24,8 @@
 		9E5660881938CA87001F5F8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E56606A1938CA87001F5F8C /* UIKit.framework */; };
 		9E5660901938CA87001F5F8C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E56608E1938CA87001F5F8C /* InfoPlist.strings */; };
 		9E5660921938CA87001F5F8C /* MeetYaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E5660911938CA87001F5F8C /* MeetYaTests.m */; };
+		9E5A4A731941FE52009AE365 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5A4A721941FE52009AE365 /* CoreData.framework */; };
+		9E5A4A761941FE94009AE365 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E5A4A741941FE94009AE365 /* Model.xcdatamodeld */; };
 		9EC413D8193DDD7C00A6E044 /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413D7193DDD7C00A6E044 /* TableCell.m */; };
 		9EC413DB193DE51600A6E044 /* PrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413DA193DE51600A6E044 /* PrefViewController.m */; };
 /* End PBXBuildFile section */
@@ -64,6 +66,8 @@
 		9E56608D1938CA87001F5F8C /* MeetYaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MeetYaTests-Info.plist"; sourceTree = "<group>"; };
 		9E56608F1938CA87001F5F8C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9E5660911938CA87001F5F8C /* MeetYaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetYaTests.m; sourceTree = "<group>"; };
+		9E5A4A721941FE52009AE365 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		9E5A4A751941FE94009AE365 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		9EC413D6193DDD7C00A6E044 /* TableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCell.h; sourceTree = "<group>"; };
 		9EC413D7193DDD7C00A6E044 /* TableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCell.m; sourceTree = "<group>"; };
 		9EC413D9193DE51600A6E044 /* PrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefViewController.h; sourceTree = "<group>"; };
@@ -75,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E5A4A731941FE52009AE365 /* CoreData.framework in Frameworks */,
 				9E5660691938CA87001F5F8C /* CoreGraphics.framework in Frameworks */,
 				9E56606B1938CA87001F5F8C /* UIKit.framework in Frameworks */,
 				9E5660671938CA87001F5F8C /* Foundation.framework in Frameworks */,
@@ -116,6 +121,7 @@
 		9E5660651938CA87001F5F8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E5A4A721941FE52009AE365 /* CoreData.framework */,
 				9E5660661938CA87001F5F8C /* Foundation.framework */,
 				9E5660681938CA87001F5F8C /* CoreGraphics.framework */,
 				9E56606A1938CA87001F5F8C /* UIKit.framework */,
@@ -144,6 +150,7 @@
 				9E56607C1938CA87001F5F8C /* ViewController.m */,
 				9E56607E1938CA87001F5F8C /* Images.xcassets */,
 				9E56606D1938CA87001F5F8C /* Supporting Files */,
+				9E5A4A741941FE94009AE365 /* Model.xcdatamodeld */,
 			);
 			path = MeetYa;
 			sourceTree = "<group>";
@@ -279,6 +286,7 @@
 				9E1A8048193CCA0C00E9F364 /* Request.m in Sources */,
 				9EC413DB193DE51600A6E044 /* PrefViewController.m in Sources */,
 				9E56607D1938CA87001F5F8C /* ViewController.m in Sources */,
+				9E5A4A761941FE94009AE365 /* Model.xcdatamodeld in Sources */,
 				9EC413D8193DDD7C00A6E044 /* TableCell.m in Sources */,
 				9E5660771938CA87001F5F8C /* AppDelegate.m in Sources */,
 				9E5660731938CA87001F5F8C /* main.m in Sources */,
@@ -498,6 +506,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9E5A4A741941FE94009AE365 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9E5A4A751941FE94009AE365 /* Model.xcdatamodel */,
+			);
+			currentVersion = 9E5A4A751941FE94009AE365 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9E56605B1938CA87001F5F8C /* Project object */;
 }
