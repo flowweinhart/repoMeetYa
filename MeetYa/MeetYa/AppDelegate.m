@@ -27,6 +27,11 @@
     
     // Override point for customization after application launch.
     
+    
+    
+    
+    
+    
     _requests = [NSMutableArray arrayWithCapacity:12];
     
     Request *r1 = [[Request alloc] init];
@@ -42,6 +47,19 @@
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     SportsTableViewController *sportsViewController = [navigationController viewControllers][0];
     sportsViewController.requests = _requests;
+    
+    
+    _mcManager = [[MCManager alloc] init];
+    
+    [_mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
+    [_mcManager setupMCBrowser];
+    
+    //TODO -> Datenstruktur für Requests
+    [_mcManager setupMCAdvertiserWithDiscoveryInfo:nil];
+    
+    [_mcManager startAdvertiser];
+    [_mcManager startBrowser];
+    
     
     return YES;
 }

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCManager.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -14,5 +15,7 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator ;
+
+@property (nonatomic, strong) MCManager *mcManager;
 
 @end
