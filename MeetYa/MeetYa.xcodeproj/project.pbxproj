@@ -29,6 +29,7 @@
 		9EB838F419475F8D007EDC8D /* MCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB838F319475F8D007EDC8D /* MCManager.m */; };
 		9EC413D8193DDD7C00A6E044 /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413D7193DDD7C00A6E044 /* TableCell.m */; };
 		9EC413DB193DE51600A6E044 /* PrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413DA193DE51600A6E044 /* PrefViewController.m */; };
+		9EEBD89319476562008CABFC /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EEBD89219476562008CABFC /* MultipeerConnectivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		9EC413D7193DDD7C00A6E044 /* TableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCell.m; sourceTree = "<group>"; };
 		9EC413D9193DE51600A6E044 /* PrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefViewController.h; sourceTree = "<group>"; };
 		9EC413DA193DE51600A6E044 /* PrefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefViewController.m; sourceTree = "<group>"; };
+		9EEBD89219476562008CABFC /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EEBD89319476562008CABFC /* MultipeerConnectivity.framework in Frameworks */,
 				9E5A4A731941FE52009AE365 /* CoreData.framework in Frameworks */,
 				9E5660691938CA87001F5F8C /* CoreGraphics.framework in Frameworks */,
 				9E56606B1938CA87001F5F8C /* UIKit.framework in Frameworks */,
@@ -124,6 +127,7 @@
 		9E5660651938CA87001F5F8C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9EEBD89219476562008CABFC /* MultipeerConnectivity.framework */,
 				9E5A4A721941FE52009AE365 /* CoreData.framework */,
 				9E5660661938CA87001F5F8C /* Foundation.framework */,
 				9E5660681938CA87001F5F8C /* CoreGraphics.framework */,
