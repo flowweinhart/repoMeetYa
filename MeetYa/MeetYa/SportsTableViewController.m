@@ -17,6 +17,8 @@
 
 @implementation SportsTableViewController
 
+@synthesize mainSwitch;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -130,4 +132,15 @@
 }
 
 
+- (IBAction)mainSwitchSwitched:(id)sender {
+    // TODO
+    
+    if(self.mainSwitch.enabled){
+        // switch on all requests
+        // switch on each switch of each request
+    } else {
+        // switch off all requests
+        // switch off all request switches
+    }
+}
 @end

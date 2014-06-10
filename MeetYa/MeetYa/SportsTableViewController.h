@@ -12,4 +12,8 @@
 
 @property (nonatomic, weak) NSMutableArray *requests;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *mainSwitch;
+
+- (IBAction)mainSwitchSwitched:(id)sender;
+
 @end
