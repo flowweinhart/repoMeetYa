@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MCManager.h"
+#import "NSMutableArray.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -17,5 +18,7 @@
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator ;
 
 @property (nonatomic, strong) MCManager *mcManager;
+
+@property (nonatomic, strong) NSMutableArray *requests;
 
 @end

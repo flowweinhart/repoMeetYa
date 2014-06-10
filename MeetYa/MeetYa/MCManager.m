@@ -253,7 +253,7 @@
 
 
 -(void) matching:(NSDictionary *) dic {
-	for(Request * req in requests){
+	for(Request * req in self.appDelegate.requests){
 		NSString * key 	= req.key;
 		NSString * value= (NSString *)[dic getValue:key];
 		if( key == @"Anything" && [self anythingMatches:dic WithPerson:req.value]

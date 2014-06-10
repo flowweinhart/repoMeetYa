@@ -11,10 +11,8 @@
 #import "SportsTableViewController.h"
 
 @implementation AppDelegate
-{
-    NSMutableArray *_requests;
-    
-}
+
+
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -26,7 +24,6 @@
 {
     
     // Override point for customization after application launch.
-    
     
     
     
