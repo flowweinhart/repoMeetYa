@@ -27,14 +27,6 @@
 
 // Session Delegate Methoden
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
-   /* NSDictionary *dict = @{@"peerID": peerID,
-                           @"state" : [NSNumber numberWithInt:state]
-                           };
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidChangeStateNotification"
-                                                        object:nil
-                                                   userInfo:dict];
-    */
     NSLog([@"Did change State: " stringByAppendingString:peerID.displayName]);
     
     if(state == MCSessionStateConnected){
@@ -89,60 +81,22 @@
     }
     [_browser stopBrowsingForPeers];
     NSLog(@"Browser stoped");
-    //[_advertiser stopAdvertisingPeer];
-    //_partnerPeerID = peerID;
     _session = [[MCSession alloc] initWithPeer:_peerID];
     _session.delegate = self;
     NSLog(@"Session created");
     
-    //[_session connectPeer:peerID withNearbyConnectionData:context];
     invitationHandler(true, _session);
     NSLog([@"Accepted Invitation from Peer: " stringByAppendingString: peerID.displayName]);
-    
-    //[_session connectPeer:peerID withNearbyConnectionData:context];
-    
-    
-    // TODO
-    /* 
-    
-    match(context);
-    
-    if (matchFound){
-        acceptInvitation(peerID);
-        sendPicture(peerID);
-        waitForResponse(x ms);
-     }
-    else {
-        declineInvitation(peerID);
-     }
-     
-     responsePositive => viewPicture + matchingQuestion
-     
-            responseNegative => do nothing
-     
-     user accepts => sendPositiveResponse();
-     
-     waitForResponse(x ms);
-     
-     showMatch();
-     
-     */
     
 }
 
 // Wird aufgerufen wenn ein Peer gefunden wurde
 -(void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info{
-    //TODO
     NSLog([@"Found Peer: " stringByAppendingString: peerID.displayName]);
     
-    //[_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
-    
-    //NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
+    //TODO if([self match:info])
     
     
-    // TODO createSessionWithOtherPeer: MCPeerID
-   // [NSTimer scheduledTimerWithTimeInterval:.06 target:self selector:@selector([_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];) userInfo:nil repeats:NO];
-   
     float t = (arc4random() % 100 + 1.0) / 100.0;
     NSTimeInterval delayInSeconds = t;
     NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
@@ -154,14 +108,6 @@
             NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
         }
     });
-    
-    /*
-    [NSThread sleepForTimeInterval:arc4random()%3 + 1];
-    if(!_recievedInvitation){
-        [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
-        NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
-    }
-    */
 }
 
 // Wird aufgerufen wenn ein gefundener Peer wird verloren wurde
@@ -177,8 +123,6 @@
 // Browser wird gestartet und sucht nach Peers, falls Peer gefunden => browser:foundPeer:withDiscoveryInfo:
 // falls Peer verloren => browser:lostPeer:
 -(void)setupMCBrowser{
-    
-    //_browser = [[MCBrowserViewController alloc] initWithServiceType:@"chat-files" session:_session];
     _browser = [[MCNearbyServiceBrowser alloc] initWithPeer:_peerID serviceType:@"MeetYa"];
     NSLog(@"Browser Setup");
 }
