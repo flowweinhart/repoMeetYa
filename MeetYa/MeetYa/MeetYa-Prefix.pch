@@ -15,5 +15,4 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
     #import <MultipeerConnectivity/MultipeerConnectivity.h>
-    #import <AppDelegate.h>
 #endif
