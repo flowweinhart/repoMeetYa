@@ -178,10 +178,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="KAH-IQ-BgD"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ssu-gb-8vF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-508" y="893"/>
+            <point key="canvasLocation" x="-589" y="852"/>
         </scene>
         <!--Request Detail View Controller-->
         <scene sceneID="WuU-yP-g64">
