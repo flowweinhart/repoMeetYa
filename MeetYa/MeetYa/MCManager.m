@@ -254,17 +254,22 @@
 
 -(void) matching:(NSDictionary *) dic {
 	for(Request * req in self.appDelegate.requests){
-		NSString * key 	= req.key;
-		NSString * value= (NSString *)[dic getValue:key];
-		if( key == @"Anything" && [self anythingMatches:dic WithPerson:req.value]
-           || value != nil && [self value:value matchesValue:req.value]){
-			[self matchFoundWithTask:key andPerson:value];
+		NSString * key 	= req.task;
+		NSString * value= (NSString *)[dic valueForKeyPath:key];
+		if( ([key isEqualToString:@"Anything"] && [self anythingMatches:dic WithPerson:req.person])
+           || (value != nil && [self value:value matchesValue:req.person]))
+        {
+			[self matchFoundForRequest:req];
 		}
 	}
 }
 
+-(void) matchFoundForRequest:(Request *) req {
+    NSLog(@"Match found");
+}
+
 -(BOOL) anythingMatches:(NSDictionary *) dic WithPerson:(NSString *) value{
-	NSArray * values = [dic getValues]; //TODO
+	NSArray * values = [dic allValues]; //TODO
 	for(NSString * v in values){
 		if([self value:v matchesValue:value]) return true;
 	}
@@ -272,9 +277,9 @@
 }
 
 -(BOOL) value:(NSString *) v1 matchesValue:(NSString *) v2{
-	if(v2 == @"Anyone") return true;
+	if([v2 isEqualToString:@"Anyone"]) return true;
 	else {
-    switch(v1) {
+    Switch(v1){
         case "Anyone":
         return true; break;
         case "Peer":
