@@ -7,12 +7,17 @@
 //
 
 #import "MCManager.h"
+#import "Request.h"
+
 
 @implementation MCManager
 
 
+@synthesize appDelegate;
+
 -(id)init{
     self = [super init];
+
     
     if (self) {
         _peerID = nil;
@@ -246,6 +251,43 @@
 }
 
 
+
+-(void) matching:(NSDictionary *) dic {
+	for(Request * req in requests){
+		NSString * key 	= req.key;
+		NSString * value= (NSString *)[dic getValue:key];
+		if( key == @"Anything" && [self anythingMatches:dic WithPerson:req.value]
+           || value != nil && [self value:value matchesValue:req.value]){
+			[self matchFoundWithTask:key andPerson:value];
+		}
+	}
+}
+
+-(BOOL) anythingMatches:(NSDictionary *) dic WithPerson:(NSString *) value{
+	NSArray * values = [dic getValues]; //TODO
+	for(NSString * v in values){
+		if([self value:v matchesValue:value]) return true;
+	}
+	return false;
+}
+
+-(BOOL) value:(NSString *) v1 matchesValue:(NSString *) v2{
+	if(v2 == @"Anyone") return true;
+	else {
+    switch(v1) {
+        case "Anyone":
+        return true; break;
+        case "Peer":
+        if(v2 == @"Peer") return true; break;
+		case "Trainer":
+        if(v2 == @"Student") return true; break;
+		case "Student":
+        if(v2 == @"Trainer") return true; break;
+        default:
+        return false;
+    }
+    }
+}
 
 
 @end

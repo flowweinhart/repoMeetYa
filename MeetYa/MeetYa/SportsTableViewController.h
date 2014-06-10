@@ -10,6 +10,8 @@
 
 @interface SportsTableViewController : UITableViewController
 
+@property (nonatomic, strong) AppDelegate *appDelegate;
+
 @property (nonatomic, weak) NSMutableArray *requests;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *mainSwitch;

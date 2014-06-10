@@ -26,6 +26,7 @@
 		9E5660921938CA87001F5F8C /* MeetYaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E5660911938CA87001F5F8C /* MeetYaTests.m */; };
 		9E5A4A731941FE52009AE365 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5A4A721941FE52009AE365 /* CoreData.framework */; };
 		9E5A4A761941FE94009AE365 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E5A4A741941FE94009AE365 /* Model.xcdatamodeld */; };
+		9E93938719476F3B000E35FC /* SportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E93938619476F3B000E35FC /* SportsViewController.m */; };
 		9EB838F419475F8D007EDC8D /* MCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB838F319475F8D007EDC8D /* MCManager.m */; };
 		9EC413D8193DDD7C00A6E044 /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413D7193DDD7C00A6E044 /* TableCell.m */; };
 		9EC413DB193DE51600A6E044 /* PrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413DA193DE51600A6E044 /* PrefViewController.m */; };
@@ -70,6 +71,8 @@
 		9E5660911938CA87001F5F8C /* MeetYaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetYaTests.m; sourceTree = "<group>"; };
 		9E5A4A721941FE52009AE365 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		9E5A4A751941FE94009AE365 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		9E93938519476F3B000E35FC /* SportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SportsViewController.h; sourceTree = "<group>"; };
+		9E93938619476F3B000E35FC /* SportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SportsViewController.m; sourceTree = "<group>"; };
 		9EB838F219475F8D007EDC8D /* MCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCManager.h; sourceTree = "<group>"; };
 		9EB838F319475F8D007EDC8D /* MCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCManager.m; sourceTree = "<group>"; };
 		9EC413D6193DDD7C00A6E044 /* TableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCell.h; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 				9EC413D7193DDD7C00A6E044 /* TableCell.m */,
 				9E1A8049193D0CD900E9F364 /* RequestDetailViewController.h */,
 				9E1A804A193D0CD900E9F364 /* RequestDetailViewController.m */,
+				9E93938519476F3B000E35FC /* SportsViewController.h */,
+				9E93938619476F3B000E35FC /* SportsViewController.m */,
 				9E1A8043193CC7B300E9F364 /* SportsTableViewController.h */,
 				9E1A8044193CC7B300E9F364 /* SportsTableViewController.m */,
 				9E56607B1938CA87001F5F8C /* ViewController.h */,
@@ -292,6 +297,7 @@
 			files = (
 				9E1A8045193CC7B300E9F364 /* SportsTableViewController.m in Sources */,
 				9E1A804B193D0CD900E9F364 /* RequestDetailViewController.m in Sources */,
+				9E93938719476F3B000E35FC /* SportsViewController.m in Sources */,
 				9E1A8048193CCA0C00E9F364 /* Request.m in Sources */,
 				9EC413DB193DE51600A6E044 /* PrefViewController.m in Sources */,
 				9E56607D1938CA87001F5F8C /* ViewController.m in Sources */,

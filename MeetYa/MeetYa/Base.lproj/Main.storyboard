@@ -86,10 +86,10 @@
             </objects>
             <point key="canvasLocation" x="-1087" y="56"/>
         </scene>
-        <!--View Controller-->
+        <!--Sports View Controller-->
         <scene sceneID="D1K-lM-RnY">
             <objects>
-                <viewController id="ads-QS-lch" sceneMemberID="viewController">
+                <viewController id="ads-QS-lch" customClass="SportsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rzx-kn-coL"/>
                         <viewControllerLayoutGuide type="bottom" id="hiS-Cx-mqU"/>

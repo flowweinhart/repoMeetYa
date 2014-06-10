@@ -138,9 +138,11 @@
     if(self.mainSwitch.enabled){
         // switch on all requests
         // switch on each switch of each request
+        _appDelegate.mcManager.mcEnabled = true;
     } else {
         // switch off all requests
         // switch off all request switches
+        _appDelegate.mcManager.mcEnabled = false;
     }
 }
 @end
