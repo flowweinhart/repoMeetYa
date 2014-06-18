@@ -32,12 +32,12 @@
     _requests = [NSMutableArray arrayWithCapacity:12];
     
     Request *r1 = [[Request alloc] init];
-    r1.person = @"peer";
+    r1.person = @"Peer";
     r1.task = @"running";
     [_requests addObject:r1];
     
     Request *r2 = [[Request alloc] init];
-    r2.person = @"trainer";
+    r2.person = @"Trainer";
     r2.task = @"yoga";
     [_requests addObject:r2];
     
@@ -49,18 +49,28 @@
     _mcManager = [[MCManager alloc] init];
     
     [_mcManager setupPeerAndSessionWithDisplayName:[UIDevice currentDevice].name];
-    [_mcManager setupMCBrowser];
     
     //TODO -> Datenstruktur für Requests
-    [_mcManager setupMCAdvertiserWithDiscoveryInfo:nil];
+    [_mcManager setupMCAdvertiserWithDiscoveryInfo:[self getDictionaryFromRequests]];
+    // [_mcManager setupMCAdvertiserWithDiscoveryInfo:nil];
+    [_mcManager setupMCBrowser];
     
     [_mcManager startAdvertiser];
     [_mcManager startBrowser];
     
-    
     return YES;
 }
-							
+
+-(NSDictionary *) getDictionaryFromRequests{
+    NSMutableDictionary * dic = [[NSMutableDictionary alloc] init];
+    for (Request * req in _requests){
+        [dic setValue:req.person forKey:req.task];
+    }
+    
+    NSLog(@"Dictionary created");
+    return (NSDictionary *)dic;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -69,7 +79,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

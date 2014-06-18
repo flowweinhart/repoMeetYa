@@ -8,11 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
-#import "AppDelegate.h"
 
 @interface MCManager : NSObject <MCSessionDelegate, MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate>
-
-@property (nonatomic, strong) AppDelegate *appDelegate;
 
 @property (nonatomic, strong) MCPeerID *peerID;
 @property (nonatomic, strong) MCPeerID *partnerPeerID;

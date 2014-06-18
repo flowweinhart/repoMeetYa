@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MCManager.h"
-#import "NSMutableArray.h"
+//#import "NSMutableArray.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -107,9 +107,7 @@
     //TODO
     NSLog([@"Found Peer: " stringByAppendingString: peerID.displayName]);
     
-    
     if([self matching:info]){
-        
         float t = (arc4random() % 100 + 1.0) / 100.0;
         NSTimeInterval delayInSeconds = t;
         NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
@@ -122,14 +120,6 @@
             }
         });
     }
-    
-    /*
-     [NSThread sleepForTimeInterval:arc4random()%3 + 1];
-     if(!_recievedInvitation){
-     [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
-     NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
-     }
-     */
 }
 
 // Wird aufgerufen wenn ein gefundener Peer wird verloren wurde
@@ -223,6 +213,8 @@
 	for(Request * req in appD.requests){
 		NSString * key 	= req.task;
 		NSString * value= (NSString *)[dic valueForKey:key];
+        
+        NSLog([@"Processing for: " stringByAppendingString:key]);
 		if( ([key isEqualToString:@"Anything"] && [self anythingMatches:dic WithPerson:req.person])
            || (value != nil && [self value:value matchesValue:req.person]))
         {
@@ -249,6 +241,7 @@
 }
 
 -(BOOL) value:(NSString *) v1 matchesValue:(NSString *) v2{
+    NSLog([[v1 stringByAppendingString:@" matches "] stringByAppendingString:v2]);
 	if([v2 isEqualToString:@"Anyone"]) {return true;}
 	else {
         if([v1 isEqualToString:@"Anyone"]){return true;}
