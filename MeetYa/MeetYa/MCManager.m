@@ -8,16 +8,14 @@
 
 #import "MCManager.h"
 #import "Request.h"
-
+#import "AppDelegate.h"
 
 @implementation MCManager
 
 
-@synthesize appDelegate;
-
 -(id)init{
     self = [super init];
-
+    
     
     if (self) {
         _peerID = nil;
@@ -32,35 +30,35 @@
 
 // Session Delegate Methoden
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
-   /* NSDictionary *dict = @{@"peerID": peerID,
-                           @"state" : [NSNumber numberWithInt:state]
-                           };
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidChangeStateNotification"
-                                                        object:nil
-                                                   userInfo:dict];
-    */
+    /* NSDictionary *dict = @{@"peerID": peerID,
+     @"state" : [NSNumber numberWithInt:state]
+     };
+     
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidChangeStateNotification"
+     object:nil
+     userInfo:dict];
+     */
     NSLog([@"Did change State: " stringByAppendingString:peerID.displayName]);
     
     if(state == MCSessionStateConnected){
-    NSString * log = @"Session: ";
-    for(MCPeerID * i in _session.connectedPeers){
-        [log stringByAppendingString:i.displayName];
-        [log stringByAppendingString:@" , "];
-    }
-    NSLog(log);
-    
-    NSTimeInterval delayInSeconds = (arc4random() % 100 + 1) / 100;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSData * data = [@"test" dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *error;
-        [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
-        NSLog(@"Send Data to Peers");
-        if (error) {
-            NSLog(@"%@", [error localizedDescription]);
+        NSString * log = @"Session: ";
+        for(MCPeerID * i in _session.connectedPeers){
+            [log stringByAppendingString:i.displayName];
+            [log stringByAppendingString:@" , "];
         }
-    });
+        NSLog(log);
+        
+        NSTimeInterval delayInSeconds = (arc4random() % 100 + 1) / 100;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            NSData * data = [@"test" dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
+            NSLog(@"Send Data to Peers");
+            if (error) {
+                NSLog(@"%@", [error localizedDescription]);
+            }
+        });
     }
     
 }
@@ -94,45 +92,14 @@
     }
     [_browser stopBrowsingForPeers];
     NSLog(@"Browser stoped");
-    //[_advertiser stopAdvertisingPeer];
-    //_partnerPeerID = peerID;
+    
+    
     _session = [[MCSession alloc] initWithPeer:_peerID];
     _session.delegate = self;
     NSLog(@"Session created");
     
-    //[_session connectPeer:peerID withNearbyConnectionData:context];
     invitationHandler(true, _session);
     NSLog([@"Accepted Invitation from Peer: " stringByAppendingString: peerID.displayName]);
-    
-    //[_session connectPeer:peerID withNearbyConnectionData:context];
-    
-    
-    // TODO
-    /* 
-    
-    match(context);
-    
-    if (matchFound){
-        acceptInvitation(peerID);
-        sendPicture(peerID);
-        waitForResponse(x ms);
-     }
-    else {
-        declineInvitation(peerID);
-     }
-     
-     responsePositive => viewPicture + matchingQuestion
-     
-            responseNegative => do nothing
-     
-     user accepts => sendPositiveResponse();
-     
-     waitForResponse(x ms);
-     
-     showMatch();
-     
-     */
-    
 }
 
 // Wird aufgerufen wenn ein Peer gefunden wurde
@@ -140,33 +107,29 @@
     //TODO
     NSLog([@"Found Peer: " stringByAppendingString: peerID.displayName]);
     
-    //[_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
     
-    //NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
-    
-    
-    // TODO createSessionWithOtherPeer: MCPeerID
-   // [NSTimer scheduledTimerWithTimeInterval:.06 target:self selector:@selector([_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];) userInfo:nil repeats:NO];
-   
-    float t = (arc4random() % 100 + 1.0) / 100.0;
-    NSTimeInterval delayInSeconds = t;
-    NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
-    
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        if(!_recievedInvitation){
-            [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
-            NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
-        }
-    });
+    if([self matching:info]){
+        
+        float t = (arc4random() % 100 + 1.0) / 100.0;
+        NSTimeInterval delayInSeconds = t;
+        NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            if(!_recievedInvitation){
+                [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
+                NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
+            }
+        });
+    }
     
     /*
-    [NSThread sleepForTimeInterval:arc4random()%3 + 1];
-    if(!_recievedInvitation){
-        [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
-        NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
-    }
-    */
+     [NSThread sleepForTimeInterval:arc4random()%3 + 1];
+     if(!_recievedInvitation){
+     [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
+     NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
+     }
+     */
 }
 
 // Wird aufgerufen wenn ein gefundener Peer wird verloren wurde
@@ -175,7 +138,7 @@
     
     //TODO
     /*
-      evtl. neuer Bildschirm mit Infos, dass Peer nicht gefunden wurde
+     evtl. neuer Bildschirm mit Infos, dass Peer nicht gefunden wurde
      */
 }
 
@@ -252,20 +215,29 @@
 
 
 
--(void) matching:(NSDictionary *) dic {
-	for(Request * req in self.appDelegate.requests){
+-(BOOL) matching:(NSDictionary *) dic {
+    AppDelegate * appD = [[UIApplication sharedApplication] delegate];
+    
+    NSLog(@"Processing Match...");
+    
+	for(Request * req in appD.requests){
 		NSString * key 	= req.task;
-		NSString * value= (NSString *)[dic valueForKeyPath:key];
+		NSString * value= (NSString *)[dic valueForKey:key];
 		if( ([key isEqualToString:@"Anything"] && [self anythingMatches:dic WithPerson:req.person])
            || (value != nil && [self value:value matchesValue:req.person]))
         {
 			[self matchFoundForRequest:req];
+            return true;
 		}
 	}
+    return false;
 }
 
 -(void) matchFoundForRequest:(Request *) req {
-    NSLog(@"Match found");
+    NSString * log = [@"Found Task: " stringByAppendingString: req.task];
+    [log stringByAppendingString:@"  Found Person: "];
+    [log stringByAppendingString:req.person];
+    NSLog(log);
 }
 
 -(BOOL) anythingMatches:(NSDictionary *) dic WithPerson:(NSString *) value{
@@ -277,21 +249,14 @@
 }
 
 -(BOOL) value:(NSString *) v1 matchesValue:(NSString *) v2{
-	if([v2 isEqualToString:@"Anyone"]) return true;
+	if([v2 isEqualToString:@"Anyone"]) {return true;}
 	else {
-    Switch(v1){
-        case "Anyone":
-        return true; break;
-        case "Peer":
-        if(v2 == @"Peer") return true; break;
-		case "Trainer":
-        if(v2 == @"Student") return true; break;
-		case "Student":
-        if(v2 == @"Trainer") return true; break;
-        default:
-        return false;
+        if([v1 isEqualToString:@"Anyone"]){return true;}
+        else if ([v1 isEqualToString:@"Peer"] && [v2 isEqualToString:@"Peer"]){return true;}
+        else if ([v1 isEqualToString:@"Trainer"] && [v2 isEqualToString:@"Student"]){return true;}
+        else if ([v1 isEqualToString:@"Student"] && [v2 isEqualToString:@"Trainer"]){return true;}
     }
-    }
+    return false;
 }
 
 
