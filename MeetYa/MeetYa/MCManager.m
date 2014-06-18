@@ -30,11 +30,10 @@
 -(void) sendResponse:(BOOL)acceptedMatch{
     NSData * data = [[NSData alloc] init];
     if(acceptedMatch){
-        //TODO Sende Bild, falls selbst ein Bild empfangen wurde
-        // sonst sende Bestätigung
+        data = [[NSData alloc] initWithBase64EncodedString:@"MatchAccepted" options:NSDataBase64DecodingIgnoreUnknownCharacters];
     }
     else{
-        //TODO Sende Verweigerung
+        data = [[NSData alloc] initWithBase64EncodedString:@"MatchDeclined" options:NSDataBase64DecodingIgnoreUnknownCharacters];
     }
     
     NSError *error;
@@ -43,6 +42,9 @@
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }
+    
+    if(acceptedMatch) //TODO
+        [self sendPicture];
 }
 
 -(void) sendPicture{
@@ -61,7 +63,13 @@
 // Session Delegate Methoden
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
     
-    NSLog([@"Did change State: " stringByAppendingString:peerID.displayName]);
+    
+    if(state == MCSessionStateConnected)
+        NSLog([@"Did change State to Connected: " stringByAppendingString:peerID.displayName]);
+    else if (state == MCSessionStateConnecting){
+        NSLog([@"Did change State to Connecting: " stringByAppendingString:peerID.displayName]);
+    }
+    
     
     if(state == MCSessionStateConnected && ![_peerID isEqual:peerID] && _recievedInvitation){
         [self sendPicture];
@@ -73,6 +81,30 @@
     
     //TODO Bild von Person A anzeigen, falls data ein Bild ist
     //TODO falls Data ein "match accepted" ist, 1. auf Bild warten oder 2. Match anzeigen
+    if([data isKindOfClass:[NSString class]]){
+        NSString * d = (NSString *) data;
+        if([d isEqualToString:@"MatchAccepted"] && _matchAccepted){
+            //TODO showMatch
+            NSLog(@"Show match");
+        }
+        else if([d isEqualToString:@"MatchAccepted"] && !_matchAccepted){
+            //TODO sendPicture
+            NSLog(@"Send picture");
+            NSData * data = [[NSData alloc] initWithBase64EncodedString:@"sendPicturePls" options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            NSError * error;
+            [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
+            if (error) {
+                NSLog(@"%@", [error localizedDescription]);
+            }
+        }
+        else if([d isEqualToString:@"MatchDeclined"]){
+            //TODO showNoMatchWasFound
+            NSLog(@"Show no match was found");
+        }
+    }
+    else if([data isKindOfClass:[UIImage class]]){
+        NSLog(@"recieved Image");
+    }
     
 }
 
@@ -101,14 +133,33 @@
     }
     [_browser stopBrowsingForPeers];
 //  [_advertiser stopAdvertisingPeer];
-    NSLog(@"Browser stoped");
     
-    _session = [[MCSession alloc] initWithPeer:_peerID];
-    _session.delegate = self;
-    NSLog(@"Session created");
     
-    invitationHandler(true, _session);
-    NSLog([@"Accepted Invitation from Peer: " stringByAppendingString: peerID.displayName]);
+    //TODO showDialog
+    [self acceptInvite:true invitationHandler:invitationHandler];
+    
+    /*
+     if(false){
+        _session = [[MCSession alloc] initWithPeer:_peerID];
+        _session.delegate = self;
+        NSLog(@"Session created");
+    
+        invitationHandler(true, _session);
+        NSLog([@"Accepted Invitation from Peer: " stringByAppendingString: peerID.displayName]);
+    }
+    */
+    
+}
+
+-(void) acceptInvite:(BOOL) accepted invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler{
+   
+        _session = [[MCSession alloc] initWithPeer:_peerID];
+        _session.delegate = self;
+        NSLog(@"Session created");
+        
+        invitationHandler(accepted, _session);
+        NSLog(@"Accepted Invitation");
+    
 }
 
 // Wird aufgerufen wenn ein Peer gefunden wurde
@@ -118,6 +169,7 @@
     
     if([self matching:info]){
         float t = (arc4random() % 100 + 1.0) / 100.0;
+        t = t * 2;
         NSTimeInterval delayInSeconds = t;
         NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
         
@@ -146,8 +198,6 @@
 // Browser wird gestartet und sucht nach Peers, falls Peer gefunden => browser:foundPeer:withDiscoveryInfo:
 // falls Peer verloren => browser:lostPeer:
 -(void)setupMCBrowser{
-    
-    //_browser = [[MCBrowserViewController alloc] initWithServiceType:@"chat-files" session:_session];
     _browser = [[MCNearbyServiceBrowser alloc] initWithPeer:_peerID serviceType:@"MeetYa"];
     NSLog(@"Browser Setup");
 }
