@@ -27,44 +27,53 @@
     return self;
 }
 
+-(void) sendResponse:(BOOL)acceptedMatch{
+    NSData * data = [[NSData alloc] init];
+    if(acceptedMatch){
+        //TODO Sende Bild, falls selbst ein Bild empfangen wurde
+        // sonst sende Bestätigung
+    }
+    else{
+        //TODO Sende Verweigerung
+    }
+    
+    NSError *error;
+    [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
+    NSLog(@"Send Data to Peers");
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
+
+-(void) sendPicture{
+    //TODO Absoluter Pfadangabe für das Bild -> woher? bzw. NSData Objekt bereits beim öffnen der App erstellen
+    NSData * data = nil;
+    // AppDelegate * appD = [[UIApplication sharedApplication] delegate];
+    //TODO data = appD.pictureData
+    NSError *error;
+    [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
+    NSLog(@"Send Picture");
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
+}
 
 // Session Delegate Methoden
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
-    /* NSDictionary *dict = @{@"peerID": peerID,
-     @"state" : [NSNumber numberWithInt:state]
-     };
-     
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"MCDidChangeStateNotification"
-     object:nil
-     userInfo:dict];
-     */
+    
     NSLog([@"Did change State: " stringByAppendingString:peerID.displayName]);
     
-    if(state == MCSessionStateConnected){
-        NSString * log = @"Session: ";
-        for(MCPeerID * i in _session.connectedPeers){
-            [log stringByAppendingString:i.displayName];
-            [log stringByAppendingString:@" , "];
-        }
-        NSLog(log);
-        
-        NSTimeInterval delayInSeconds = (arc4random() % 100 + 1) / 100;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            NSData * data = [@"test" dataUsingEncoding:NSUTF8StringEncoding];
-            NSError *error;
-            [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
-            NSLog(@"Send Data to Peers");
-            if (error) {
-                NSLog(@"%@", [error localizedDescription]);
-            }
-        });
+    if(state == MCSessionStateConnected && ![_peerID isEqual:peerID] && _recievedInvitation){
+        [self sendPicture];
     }
-    
 }
 
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
-    NSLog(@"didReceiveData");
+    NSLog([@"didReceiveDataFrom: " stringByAppendingString:peerID.displayName]);
+    
+    //TODO Bild von Person A anzeigen, falls data ein Bild ist
+    //TODO falls Data ein "match accepted" ist, 1. auf Bild warten oder 2. Match anzeigen
+    
 }
 
 
@@ -91,8 +100,8 @@
         NSLog(@"recievedInvitation = TRUE ");
     }
     [_browser stopBrowsingForPeers];
+//  [_advertiser stopAdvertisingPeer];
     NSLog(@"Browser stoped");
-    
     
     _session = [[MCSession alloc] initWithPeer:_peerID];
     _session.delegate = self;
@@ -115,7 +124,9 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             if(!_recievedInvitation){
+                //TODO context = NSData = Bild der eigenen Person
                 [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
+                
                 NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
             }
         });

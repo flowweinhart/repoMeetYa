@@ -32,6 +32,8 @@
 
 -(void)advertiseSelf:(BOOL)shouldAdvertise;
 
+-(void)sendResponse:(BOOL)acceptedMatch;
+
 
 
 @end

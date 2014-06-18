@@ -25,10 +25,6 @@
     
     // Override point for customization after application launch.
     
-    
-    
-    
-    
     _requests = [NSMutableArray arrayWithCapacity:12];
     
     Request *r1 = [[Request alloc] init];
