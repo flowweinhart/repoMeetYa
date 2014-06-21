@@ -26,11 +26,13 @@
 		9E5660921938CA87001F5F8C /* MeetYaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E5660911938CA87001F5F8C /* MeetYaTests.m */; };
 		9E5A4A731941FE52009AE365 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E5A4A721941FE52009AE365 /* CoreData.framework */; };
 		9E5A4A761941FE94009AE365 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E5A4A741941FE94009AE365 /* Model.xcdatamodeld */; };
+		9E6F87781955620900F06083 /* PropertyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F87771955620900F06083 /* PropertyListController.m */; };
 		9E93938719476F3B000E35FC /* SportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E93938619476F3B000E35FC /* SportsViewController.m */; };
 		9EB838F419475F8D007EDC8D /* MCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB838F319475F8D007EDC8D /* MCManager.m */; };
 		9EC413D8193DDD7C00A6E044 /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413D7193DDD7C00A6E044 /* TableCell.m */; };
 		9EC413DB193DE51600A6E044 /* PrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC413DA193DE51600A6E044 /* PrefViewController.m */; };
 		9EEBD89319476562008CABFC /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EEBD89219476562008CABFC /* MultipeerConnectivity.framework */; };
+		9EF4A7D91954C5D1004C8010 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF4A7D81954C5D1004C8010 /* Profile.m */; };
 		AEEC92471951AD1C0059F136 /* me.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AEEC92461951AD1C0059F136 /* me.jpg */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +74,8 @@
 		9E5660911938CA87001F5F8C /* MeetYaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetYaTests.m; sourceTree = "<group>"; };
 		9E5A4A721941FE52009AE365 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		9E5A4A751941FE94009AE365 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		9E6F87761955620900F06083 /* PropertyListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyListController.h; sourceTree = "<group>"; };
+		9E6F87771955620900F06083 /* PropertyListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyListController.m; sourceTree = "<group>"; };
 		9E93938519476F3B000E35FC /* SportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SportsViewController.h; sourceTree = "<group>"; };
 		9E93938619476F3B000E35FC /* SportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SportsViewController.m; sourceTree = "<group>"; };
 		9EB838F219475F8D007EDC8D /* MCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCManager.h; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 		9EC413D9193DE51600A6E044 /* PrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefViewController.h; sourceTree = "<group>"; };
 		9EC413DA193DE51600A6E044 /* PrefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefViewController.m; sourceTree = "<group>"; };
 		9EEBD89219476562008CABFC /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
+		9EF4A7D71954C5D1004C8010 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		9EF4A7D81954C5D1004C8010 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		AEEC92461951AD1C0059F136 /* me.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = me.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,10 +153,14 @@
 			children = (
 				9EB838F219475F8D007EDC8D /* MCManager.h */,
 				9EB838F319475F8D007EDC8D /* MCManager.m */,
+				9E6F87761955620900F06083 /* PropertyListController.h */,
+				9E6F87771955620900F06083 /* PropertyListController.m */,
 				9E5660751938CA87001F5F8C /* AppDelegate.h */,
 				9E5660761938CA87001F5F8C /* AppDelegate.m */,
 				9E1A8046193CCA0C00E9F364 /* Request.h */,
 				9E1A8047193CCA0C00E9F364 /* Request.m */,
+				9EF4A7D71954C5D1004C8010 /* Profile.h */,
+				9EF4A7D81954C5D1004C8010 /* Profile.m */,
 				9E5660781938CA87001F5F8C /* Main.storyboard */,
 				9EC413D9193DE51600A6E044 /* PrefViewController.h */,
 				9EC413DA193DE51600A6E044 /* PrefViewController.m */,
@@ -308,6 +318,8 @@
 				9EB838F419475F8D007EDC8D /* MCManager.m in Sources */,
 				9E5A4A761941FE94009AE365 /* Model.xcdatamodeld in Sources */,
 				9EC413D8193DDD7C00A6E044 /* TableCell.m in Sources */,
+				9E6F87781955620900F06083 /* PropertyListController.m in Sources */,
+				9EF4A7D91954C5D1004C8010 /* Profile.m in Sources */,
 				9E5660771938CA87001F5F8C /* AppDelegate.m in Sources */,
 				9E5660731938CA87001F5F8C /* main.m in Sources */,
 			);
