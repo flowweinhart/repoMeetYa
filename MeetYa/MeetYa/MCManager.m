@@ -23,6 +23,9 @@
         _browser = nil;
         _advertiser = nil;
         _ownImageData = nil;
+        _recievedInvitation = false;
+        _sendInvitation = false;
+        _inSession = false;
     }
     
     return self;
@@ -50,7 +53,7 @@
 
 -(void) sendPicture{
     //TODO Absoluter Pfadangabe für das Bild -> woher? bzw. NSData Objekt bereits beim öffnen der App erstellen
-    NSData * data = [@"NoPictureAvailable" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData * data;
     if(_ownImageData != nil){
         data = _ownImageData;
         NSLog(@"ImageNotNil");
@@ -58,12 +61,8 @@
     else{
         
         //data = [[NSData alloc] initWithBase64EncodedString:@"NoPictureAvailable" options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        data = [@"NoPictureAvailable" dataUsingEncoding:NSUTF8StringEncoding];
         NSLog(@"ImageNil");
-    }
-    
-    
-    if(data == nil){
-        NSLog(@"dataNil");
     }
     
     // AppDelegate * appD = [[UIApplication sharedApplication] delegate];
@@ -84,13 +83,15 @@
 // Session Delegate Methoden
 -(void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state{
     
-    
     if(state == MCSessionStateConnected)
         NSLog([@"Did change State to Connected: " stringByAppendingString:peerID.displayName]);
     else if (state == MCSessionStateConnecting){
         NSLog([@"Did change State to Connecting: " stringByAppendingString:peerID.displayName]);
     }
     
+    if(_sendInvitation && [peerID isEqual:_partnerPeerID]){
+        _inSession = true;
+    }
     
     if(state == MCSessionStateConnected && ![_peerID isEqual:peerID] && _recievedInvitation){
         [self sendPicture];
@@ -161,40 +162,26 @@
 //MCNearbyServiceAdvertiserDelegate Methoden
 -(void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler{
     
+    if(!_recievedInvitation && !_sendInvitation){
     NSLog([@"Recieved Invitation from Peer: " stringByAppendingString: peerID.displayName]);
-    _recievedInvitation = true;
-    if(_recievedInvitation){
-        NSLog(@"recievedInvitation = TRUE ");
-    }
-    [_browser stopBrowsingForPeers];
-//  [_advertiser stopAdvertisingPeer];
     
+    AppDelegate * appD = [[UIApplication sharedApplication] delegate];
+    _recievedInvitation = true;
     
     //TODO showDialog
+    // [appD showDialogWithInvitationHandler:invitationHandler];
+    NSLog(@"Show AcceptDialog");
     [self acceptInvite:true invitationHandler:invitationHandler];
-    
-    /*
-     if(false){
-        _session = [[MCSession alloc] initWithPeer:_peerID];
-        _session.delegate = self;
-        NSLog(@"Session created");
-    
-        invitationHandler(true, _session);
-        NSLog([@"Accepted Invitation from Peer: " stringByAppendingString: peerID.displayName]);
     }
-    */
-    
 }
 
 -(void) acceptInvite:(BOOL) accepted invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler{
-   
         _session = [[MCSession alloc] initWithPeer:_peerID];
         _session.delegate = self;
-        NSLog(@"Session created");
-        
+        _inSession = accepted;
+    
         invitationHandler(accepted, _session);
         NSLog(@"Accepted Invitation");
-    
 }
 
 -(BOOL) deviceIdentifierIsBiggerThanSelf:(NSString *) identifier {
@@ -208,36 +195,72 @@
 -(void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info{
     //TODO
     NSLog([@"Found Peer: " stringByAppendingString: peerID.displayName]);
+    _partnerPeerID = peerID;
     
-    if([self matching:info]){
-        float t = MAX(1, (arc4random() % 100 + 1.0) / 100.0);
-        NSLog([NSString stringWithFormat:@"t= %f", t]);
-        if([self deviceIdentifierIsBiggerThanSelf:[info valueForKey:@"id"]]){
-            t = 0;
-        }
-        else{ t = t * 5; }
-        
-        
-        NSTimeInterval delayInSeconds = t;
-        NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
-        
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            if(!_recievedInvitation){
+    float t;
+    if([self deviceIdentifierIsBiggerThanSelf:[info valueForKey:@"id"]]){
+        t = 0;
+    }
+    else{ t = 10; }
+    
+    NSTimeInterval delayInSeconds = t;
+    NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if(!_recievedInvitation && !_sendInvitation && !_inSession){
+            // Machting Algorithmus wird ausgeführt, sucht nach Matches und lädt anderes Peer nur ein falls ein match gefunden wurde
+            if([self matching:info]){
                 //TODO context = NSData = Bild der eigenen Person
                 [_browser invitePeer:peerID toSession:_session withContext:nil timeout:10];
+                _sendInvitation = true;
+                [self timeoutForInviteInSeconds:10];
                 
                 NSLog([@"Send Invitation to Peer " stringByAppendingString: peerID.displayName]);
             }
+        }
+    });
+}
+
+-(void) timeoutForInviteInSeconds:(int) s
+{
+    NSTimeInterval delayInSeconds = s;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        _sendInvitation = false;
+        NSLog(@"sendInvitation = false");
         });
-    }
+}
+
+-(void) timeoutForRecievingInvitationInSeconds:(int) s
+{
+    NSTimeInterval delayInSeconds = s;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        _recievedInvitation = false;
+        NSLog(@"recievedInvitation = false");
+    });
+}
+
+-(void) timeoutForSession:(int) s
+{
+    NSTimeInterval delayInSeconds = s;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        _inSession = false;
+        NSLog(@"inSession = false");
+    });
 }
 
 // Wird aufgerufen wenn ein gefundener Peer wird verloren wurde
 -(void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID{
     NSLog([@"Lost Peer: " stringByAppendingString: peerID.displayName]);
     
-    //TODO
+    if(_partnerPeerID == peerID){
+        NSLog(@"Lost Partner");
+        _inSession = false;
+    }
+    //TODO -> ?
     /*
      evtl. neuer Bildschirm mit Infos, dass Peer nicht gefunden wurde
      */
@@ -265,13 +288,13 @@
     NSLog(@"Browser Stoped");
 }
 
-
 // Advertiser bietet sich an um von anderen Peers gefunden zu werden
 -(void) setupMCAdvertiserWithDiscoveryInfo:(NSDictionary *)info{
     _advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:_peerID discoveryInfo:info serviceType:@"MeetYa"];
     NSLog(@"Advertiser Setup");
+    if(info == nil)
+        NSLog(@"asdf");
 }
-
 
 // Starte / Stope den Advertiser ->
 -(void) startAdvertiser{

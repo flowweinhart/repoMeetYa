@@ -151,10 +151,10 @@
 			children = (
 				9EB838F219475F8D007EDC8D /* MCManager.h */,
 				9EB838F319475F8D007EDC8D /* MCManager.m */,
-				9E6F87761955620900F06083 /* PropertyListController.h */,
-				9E6F87771955620900F06083 /* PropertyListController.m */,
 				9E5660751938CA87001F5F8C /* AppDelegate.h */,
 				9E5660761938CA87001F5F8C /* AppDelegate.m */,
+				9E6F87761955620900F06083 /* PropertyListController.h */,
+				9E6F87771955620900F06083 /* PropertyListController.m */,
 				9E1A8046193CCA0C00E9F364 /* Request.h */,
 				9E1A8047193CCA0C00E9F364 /* Request.m */,
 				9EF4A7D71954C5D1004C8010 /* Profile.h */,

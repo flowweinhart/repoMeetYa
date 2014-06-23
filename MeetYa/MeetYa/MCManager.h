@@ -19,6 +19,9 @@
 @property (nonatomic, strong) NSData * ownImageData;
 
 @property BOOL recievedInvitation;
+@property BOOL sendInvitation;
+@property BOOL inSession;
+
 @property BOOL matchAccepted;
 @property BOOL pictureRecieved;
 
