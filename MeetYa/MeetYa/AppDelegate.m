@@ -41,6 +41,12 @@
     SportsTableViewController *sportsViewController = [navigationController viewControllers][0];
     sportsViewController.requests = _requests;
     
+    //TODO
+    /*
+     if(_profileImage != nil){
+        [mcManager createImageData: _profileImage ];
+     }
+     */
     
     _mcManager = [[MCManager alloc] init];
     

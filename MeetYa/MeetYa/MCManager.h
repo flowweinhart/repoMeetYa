@@ -16,7 +16,8 @@
 @property (nonatomic, strong) MCSession *session;
 @property (nonatomic, strong) MCNearbyServiceBrowser *browser;
 @property (nonatomic, strong) MCNearbyServiceAdvertiser *advertiser;
-@property (nonatomic, strong) UIImage * image;
+@property (nonatomic, strong) NSData * ownImageData;
+
 @property BOOL recievedInvitation;
 @property BOOL matchAccepted;
 @property BOOL pictureRecieved;
@@ -37,6 +38,7 @@
 
 -(void)sendResponse:(BOOL)acceptedMatch;
 
+-(void) createDataImage:(UIImage *) image;
 
 
 @end

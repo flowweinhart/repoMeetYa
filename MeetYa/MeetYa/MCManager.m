@@ -22,6 +22,7 @@
         _session = nil;
         _browser = nil;
         _advertiser = nil;
+        _ownImageData = nil;
     }
     
     return self;
@@ -50,6 +51,12 @@
 -(void) sendPicture{
     //TODO Absoluter Pfadangabe für das Bild -> woher? bzw. NSData Objekt bereits beim öffnen der App erstellen
     NSData * data = nil;
+    if(_ownImageData != nil){
+        data = _ownImageData;}
+    else{
+        data = [[NSData alloc] initWithBase64EncodedString:@"No Picture Available" options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    }
+        
     // AppDelegate * appD = [[UIApplication sharedApplication] delegate];
     //TODO data = appD.pictureData
     NSError *error;
@@ -58,6 +65,11 @@
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }
+}
+
+// Nur JPEG Bilder zulässig
+-(void) createDataImage:(UIImage *) image{
+    _ownImageData = UIImageJPEGRepresentation(image, 1.0);
 }
 
 // Session Delegate Methoden
@@ -79,33 +91,47 @@
 -(void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID{
     NSLog([@"didReceiveDataFrom: " stringByAppendingString:peerID.displayName]);
     
-    //TODO Bild von Person A anzeigen, falls data ein Bild ist
-    //TODO falls Data ein "match accepted" ist, 1. auf Bild warten oder 2. Match anzeigen
-    if([data isKindOfClass:[NSString class]]){
-        NSString * d = (NSString *) data;
-        if([d isEqualToString:@"MatchAccepted"] && _matchAccepted){
-            //TODO showMatch
-            NSLog(@"Show match");
-        }
-        else if([d isEqualToString:@"MatchAccepted"] && !_matchAccepted){
-            //TODO sendPicture
-            NSLog(@"Send picture");
-            NSData * data = [[NSData alloc] initWithBase64EncodedString:@"sendPicturePls" options:NSDataBase64DecodingIgnoreUnknownCharacters];
-            NSError * error;
-            [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
-            if (error) {
-                NSLog(@"%@", [error localizedDescription]);
+    AppDelegate * appD = [[UIApplication sharedApplication] delegate];
+    
+    UIImage * image = [UIImage imageWithData:data];
+    if(image == nil && _ownImageData == nil){
+        if([data isKindOfClass:[NSString class]]){
+            NSString * d = (NSString *) data;
+            if([d isEqualToString:@"MatchAccepted"] && _matchAccepted){
+                //TODO showMatch
+                // [appD showMatch];
+                NSLog(@"Show match");
+            }
+            else if([d isEqualToString:@"MatchAccepted"] && !_matchAccepted){
+                //TODO sendPicture
+                NSLog(@"Request picture");
+                NSData * data = [[NSData alloc] initWithBase64EncodedString:@"sendPicturePls" options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                NSError * error;
+                [_session sendData:data toPeers:_session.connectedPeers withMode:MCSessionSendDataReliable error:&error];
+                if (error) {
+                    NSLog(@"%@", [error localizedDescription]);
+                }
+            }
+            else if([d isEqualToString:@"MatchDeclined"]){
+                //TODO showNoMatchWasFound
+                // [appD showNoMatchWasFound];
+                NSLog(@"Show no match was found");
+            }
+            else if([d isEqualToString:@"sendPicturePls"]){
+                [self sendPicture];
+                NSLog(@"Picture send");
             }
         }
-        else if([d isEqualToString:@"MatchDeclined"]){
-            //TODO showNoMatchWasFound
-            NSLog(@"Show no match was found");
-        }
     }
-    else if([data isKindOfClass:[UIImage class]]){
-        NSLog(@"recieved Image");
+    else if(image != nil && _ownImageData == nil){
+        //TODO
     }
-    
+    else if(image != nil && _ownImageData != nil){
+        //TODO
+        /*
+         [appD showDialogWithPicture:image];
+         */
+    }
 }
 
 
