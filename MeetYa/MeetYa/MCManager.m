@@ -50,13 +50,22 @@
 
 -(void) sendPicture{
     //TODO Absoluter Pfadangabe für das Bild -> woher? bzw. NSData Objekt bereits beim öffnen der App erstellen
-    NSData * data = nil;
+    NSData * data = [@"NoPictureAvailable" dataUsingEncoding:NSUTF8StringEncoding];
     if(_ownImageData != nil){
-        data = _ownImageData;}
-    else{
-        data = [[NSData alloc] initWithBase64EncodedString:@"No Picture Available" options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        data = _ownImageData;
+        NSLog(@"ImageNotNil");
     }
+    else{
         
+        //data = [[NSData alloc] initWithBase64EncodedString:@"NoPictureAvailable" options:NSDataBase64DecodingIgnoreUnknownCharacters];
+        NSLog(@"ImageNil");
+    }
+    
+    
+    if(data == nil){
+        NSLog(@"dataNil");
+    }
+    
     // AppDelegate * appD = [[UIApplication sharedApplication] delegate];
     //TODO data = appD.pictureData
     NSError *error;
@@ -188,14 +197,27 @@
     
 }
 
+-(BOOL) deviceIdentifierIsBiggerThanSelf:(NSString *) identifier {
+    NSComparisonResult result = [identifier compare:[[UIDevice currentDevice] identifierForVendor].UUIDString];
+    if(result == NSOrderedAscending)
+        NSLog(@"Order Ascending");
+    return result == NSOrderedAscending;
+}
+
 // Wird aufgerufen wenn ein Peer gefunden wurde
 -(void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info{
     //TODO
     NSLog([@"Found Peer: " stringByAppendingString: peerID.displayName]);
     
     if([self matching:info]){
-        float t = (arc4random() % 100 + 1.0) / 100.0;
-        t = t * 2;
+        float t = MAX(1, (arc4random() % 100 + 1.0) / 100.0);
+        NSLog([NSString stringWithFormat:@"t= %f", t]);
+        if([self deviceIdentifierIsBiggerThanSelf:[info valueForKey:@"id"]]){
+            t = 0;
+        }
+        else{ t = t * 5; }
+        
+        
         NSTimeInterval delayInSeconds = t;
         NSLog([@"Time waited before invitation: " stringByAppendingString:[NSString stringWithFormat:@"%f",t]]);
         

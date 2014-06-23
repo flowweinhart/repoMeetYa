@@ -68,6 +68,8 @@
     for (Request * req in _requests){
         [dic setValue:req.person forKey:req.task];
     }
+    NSString * s = [[UIDevice currentDevice] identifierForVendor].UUIDString;
+    [dic setValue:s forKey:@"id"];
     
     NSLog(@"Dictionary created");
     return (NSDictionary *)dic;
